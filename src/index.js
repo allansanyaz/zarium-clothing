@@ -7,6 +7,7 @@ import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/home/home.component';
+import Contact from "./routes/contact/contact.component";
 import SignIn from "./routes/sign-in/sign-in.component";
 
 // define the routes
@@ -22,6 +23,10 @@ const routes = [
             {
                 path: "shop",
                 element: <div>I am the shop</div>
+            },
+            {
+                path: "contact",
+                element: <Contact />
             },
             {
                 path: "sign-in",

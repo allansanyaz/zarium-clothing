@@ -5,6 +5,7 @@ import {
 	getAuth,
 	signInWithRedirect,
 	signInWithPopup,
+	createUserWithEmailAndPassword,
 	GoogleAuthProvider,
 } from 'firebase/auth';
 
@@ -16,7 +17,6 @@ import {
 	getDoc, // when you want to access the data from the document then we use getDoc
 	setDoc, // when you want to set the data
 } from 'firebase/firestore';
-
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -33,31 +33,36 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Initialise a provider from Google
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+// set the custom parameters for the provider
+googleProvider.setCustomParameters({
 	prompt: 'select_account'
 })
 
+// get the authentication instance
 export const auth = getAuth(firebaseApp);
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+// testing out the redirect
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+
 
 // we need to create the DB
 export const db = getFirestore(firebaseApp);
 
 // testing the db methods
 // function to get the information from the USER authentication
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation={}) => {
 	// test to see if there is an existing document reference
 
 	const userDocRef = doc(db, 'users', userAuth.uid);
-	console.log(userDocRef);
+	// console.log(userDocRef);
 
 	// get the snapshot of the users data
 	const userSnapshot = await getDoc(userDocRef);
 	// log the Snapshot and
-	console.log(userSnapshot);
+	// console.log(userSnapshot);
 	// Check to see if it exists using the exists property
-	console.log(userSnapshot.exists());
+	// console.log(userSnapshot.exists());
 
 	// check and see if the user data exists do nothing end return the userDocRef
 
@@ -74,6 +79,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 				displayName,
 				email,
 				createdAt,
+				...additionalInformation,
 			})
 		} catch (error) {
 			console.log('Error creating user', error.message);
@@ -81,4 +87,12 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 	}
 
 	return userDocRef;
+}
+
+export const createAuthUserWirthEmailAndPassword = async (email, password) => {
+	// check and see that the email and password are not empty
+	if(!email || !password) return;
+
+	// try and create the user with the email and password
+	return await createUserWithEmailAndPassword(auth, email, password);
 }
