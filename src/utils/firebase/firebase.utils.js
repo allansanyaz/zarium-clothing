@@ -6,6 +6,7 @@ import {
 	signInWithRedirect,
 	signInWithPopup,
 	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
 	GoogleAuthProvider,
 } from 'firebase/auth';
 
@@ -95,4 +96,12 @@ export const createAuthUserWirthEmailAndPassword = async (email, password) => {
 
 	// try and create the user with the email and password
 	return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+export const signInAuthUserWirthEmailAndPassword = async (email, password) => {
+	// check and see that the email and password are not empty
+	if(!email || !password) return;
+
+	// this will return the user object if it worked
+	return await signInWithEmailAndPassword(auth, email, password);
 }

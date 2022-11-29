@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/home/home.component';
 import Contact from "./routes/contact/contact.component";
-import SignIn from "./routes/sign-in/sign-in.component";
+import Authentication from "./routes/authentication/authentication";
 
 // define the routes
 const routes = [
@@ -30,7 +30,7 @@ const routes = [
             },
             {
                 path: "sign-in",
-                element: <SignIn />
+                element: <Authentication />
             }
         ]
     }

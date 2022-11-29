@@ -15,7 +15,7 @@ const defaultFormFields = {
 	confirmPassword: '',
 }
 
-const SignUp = () => {
+const SignUpForm = () => {
 
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { displayName, email, password, confirmPassword } = formFields;
@@ -31,6 +31,7 @@ const SignUp = () => {
 	}
 
 	const handleSubmit = async (event) => {
+		console.log(event.target);
 		event.preventDefault();
 
 		if(password !== confirmPassword) {
@@ -61,7 +62,7 @@ const SignUp = () => {
 		<div className={"sign-up-container"}>
 			<h2>Don't have an account</h2>
 			<span>Sign up with your email and password</span>
-			<form onSubmit={() => handleSubmit()}>
+			<form onSubmit={(event) => handleSubmit(event)}>
 
 				<FormInput
 					label={"Display Name"}
@@ -101,4 +102,4 @@ const SignUp = () => {
 	)
 }
 
-export default SignUp;
+export default SignUpForm;
