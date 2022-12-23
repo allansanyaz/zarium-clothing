@@ -8,6 +8,8 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	GoogleAuthProvider,
+	signOut,
+	onAuthStateChanged,
 } from 'firebase/auth';
 
 // Just Because we have imported the user does not mean that they have been added to the database
@@ -90,7 +92,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 	return userDocRef;
 }
 
-export const createAuthUserWirthEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	// check and see that the email and password are not empty
 	if(!email || !password) return;
 
@@ -104,4 +106,13 @@ export const signInAuthUserWirthEmailAndPassword = async (email, password) => {
 
 	// this will return the user object if it worked
 	return await signInWithEmailAndPassword(auth, email, password);
+}
+
+export const signOutUser = async () => {
+	// sign out the user use a try catch block when called
+	return await signOut(auth);
+}
+
+export const onAuthStateChangedListener = (callback) => {
+	onAuthStateChanged(auth, callback)
 }

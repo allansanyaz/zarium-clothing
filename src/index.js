@@ -4,9 +4,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import './index.scss';
 import App from './containers/App';
+// import the user context component
+import { UserProvider } from './contexts/user.context';
+import { ProductProvider } from "./contexts/product.context";
+import { CartProvider } from "./contexts/cart.context";
 import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/home/home.component';
+import Shop from "./routes/shop/shop.component";
 import Contact from "./routes/contact/contact.component";
 import Authentication from "./routes/authentication/authentication";
 
@@ -22,7 +27,7 @@ const routes = [
             },
             {
                 path: "shop",
-                element: <div>I am the shop</div>
+                element: <Shop />
             },
             {
                 path: "contact",
@@ -42,7 +47,13 @@ const router = createBrowserRouter(routes);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <UserProvider>
+            <ProductProvider>
+                <CartProvider>
+                    <RouterProvider router={router} />
+                </CartProvider>
+            </ProductProvider>
+        </UserProvider>
     </React.StrictMode>
 );
 

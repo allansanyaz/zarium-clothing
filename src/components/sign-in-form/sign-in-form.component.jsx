@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import './sign-in-form.styles.scss';
@@ -29,13 +30,11 @@ const SignInForm = () => {
 		setFormFields({ ...formFields, [name]: value });
 	}
 
-	// create a log google user function
+	// handle the sign in wit google button
 	const SignInWithGoogle = async () => {
-		const response = await signInWithGooglePopup();
+		signInWithGooglePopup();
 		// note the response can also be destructured
 		// const { user } = await signInWithGooglePopup();
-		const userDocRef = await createUserDocumentFromAuth(response.user);
-		console.log(userDocRef);
 	}
 
 	// method to handle the sign in with either email or google
@@ -96,7 +95,7 @@ const SignInForm = () => {
 					</Button>
 					<Button
 						buttonType={'google'}
-						type={"submit"}
+						type={"button"}
 						name={"google"}
 						onClick={SignInWithGoogle}
 					>

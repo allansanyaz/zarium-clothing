@@ -1,10 +1,11 @@
 import { useState } from 'react';
+
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import './sign-up-form.scss';
 
 import {
-	createAuthUserWirthEmailAndPassword,
+	createAuthUserWithEmailAndPassword,
 	createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 
@@ -31,7 +32,6 @@ const SignUpForm = () => {
 	}
 
 	const handleSubmit = async (event) => {
-		console.log(event.target);
 		event.preventDefault();
 
 		if(password !== confirmPassword) {
@@ -42,7 +42,7 @@ const SignUpForm = () => {
 		// if the passwords match
 		try {
 			// let us try and authenticate the user, user can also be deconstructed
-			const response = await createAuthUserWirthEmailAndPassword(email, password);
+			const response = await createAuthUserWithEmailAndPassword(email, password);
 			// add the user to the database
 			await createUserDocumentFromAuth(response.user, { displayName });
 			// reset the form fields
