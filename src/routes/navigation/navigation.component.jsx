@@ -3,7 +3,7 @@ import { UserContext } from '../../contexts/user.context';
 import { CartContext } from '../../contexts/cart.context';
 import { Link } from "react-router-dom";
 
-import CartIcon from "../../components/cart-cion/cart-icon.component";
+import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
@@ -25,9 +25,6 @@ const Navigation = () => {
 		}
 	}
 
-	const clickHandler = () => {
-		console.log("I have been clicked");
-	}
 
 	return (
 		<nav className={'navigation'}>
