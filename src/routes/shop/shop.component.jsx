@@ -14,8 +14,7 @@ const Shop = () => {
 					<ProductCard
 						key={product.id}
 						product={product}
-					>
-					</ProductCard>
+					/>
 					)
 				)
 			}

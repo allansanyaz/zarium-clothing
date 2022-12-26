@@ -11,6 +11,7 @@ const ProductCard = ({ product }) => {
 
 	// add to cart handler
 	const onAddToCartClick = () => {
+		// add the item to the cart
 		addItemToCart(product);
 	}
 
