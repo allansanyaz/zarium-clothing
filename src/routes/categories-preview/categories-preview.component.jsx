@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { CategoriesContext } from "../../contexts/categoriesContext";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
-import './categories-preview.styles.scss'
 
 const CategoriesPreview = () => {
 	// get the product information from the context
@@ -16,7 +15,7 @@ const CategoriesPreview = () => {
 	}
 
 	return (
-		<div className={'categories-preview-container'}>
+		<>
 			{
 				Object.keys(categoriesMap).map((title, idx) => {
 					return (
@@ -29,7 +28,7 @@ const CategoriesPreview = () => {
 					)
 				})
 			}
-		</div>
+		</>
 	)
 }
 

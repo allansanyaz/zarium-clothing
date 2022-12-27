@@ -1,15 +1,13 @@
 import { useContext } from "react";
 import { UserContext } from '../../contexts/user.context';
 import { CartContext } from '../../contexts/cart.context';
-import { Link } from "react-router-dom";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
-
-import { ReactComponent as ZariumLogo } from '../../assets/zarium.svg';
-import './navigation.styles.scss';
+// import the styled components
+import { NavigationContainer, NavLinksContainer, NavLink, LogoContainer, Logo } from './navigation.styles';
 
 const Navigation = () => {
 	// Grab the context
@@ -27,37 +25,31 @@ const Navigation = () => {
 
 
 	return (
-		<nav className={'navigation'}>
-			<Link className={'nav-link'} to="/">
-				<div className={'logo-container'}>
-					<ZariumLogo className={'logo'} />
-				</div>
-			</Link>
-			<div className={'nav-links-container'}>
-				<Link className={'nav-link'}  to="categories">
-					Shop
-				</Link>
-				<Link className={'nav-link'}  to="contact">
-					Contact
-				</Link>
-				<Link className={'nav-link'}  to="sign-in">
-					{
-						(!currentUser) ?
-							(
-								<span className={'nav-link'}>Sign In</span>
-							)
-							:
-							(
-								<span className={'nav-link'} onClick={handleSignOut}>Sign Out</span>
-							)
-					}
-				</Link>
+		<NavigationContainer>
+			<LogoContainer to="/">
+				<Logo />
+			</LogoContainer>
+
+			<NavLinksContainer>
+				<NavLink to="/categories">Shop</NavLink>
+				<NavLink to="/contact">Contact</NavLink>
+				{currentUser ?
+					(
+						<NavLink as="span" onClick={handleSignOut}>
+							Sign Out
+						</NavLink>
+					) :
+					(
+						<NavLink to="/sign-in">Sign In</NavLink>
+					)
+				}
+
 				<CartIcon
 					clickHandler={toggleCartHidden}
 				/>
-			</div>
+			</NavLinksContainer>
 			{ !cartHidden && <CartDropdown /> }
-		</nav>
+		</NavigationContainer>
   );
 }
 

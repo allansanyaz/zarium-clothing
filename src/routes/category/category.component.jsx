@@ -3,6 +3,8 @@ import { CategoriesContext } from "../../contexts/categoriesContext";
 import ProductCard from "../../components/product-card/product-card.component";
 import { useParams } from 'react-router-dom'
 
+import { ProductContainer } from "./category.styles";
+
 const Category = () => {
 	// get the params from the browser URL
 	const { category } = useParams();
@@ -20,7 +22,7 @@ const Category = () => {
 	return (
 		<>
 			<h2>{category}</h2>
-			<div className={'products-container'}>
+			<ProductContainer>
 				{
 					products && products.map((product) => (
 						<ProductCard
@@ -29,7 +31,7 @@ const Category = () => {
 						/>
 					))
 				}
-			</div>
+			</ProductContainer>
 		</>
 	)
 }

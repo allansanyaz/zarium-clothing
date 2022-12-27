@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
-import './sign-in-form.styles.scss';
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
 import {
 	createUserDocumentFromAuth,
@@ -66,7 +66,7 @@ const SignInForm = () => {
 	}
 
 	return (
-		<div className={'sign-in-container'}>
+		<SignInContainer>
 			<h2>I already have an account</h2>
 			<span>Sign in with your email and password</span>
 
@@ -86,7 +86,7 @@ const SignInForm = () => {
 					name={"password"}
 					value={password}
 				/>
-				<div className={'buttons-container'}>
+				<ButtonsContainer>
 					<Button
 						type={"submit"}
 						name={"Sign In"}
@@ -94,17 +94,16 @@ const SignInForm = () => {
 						Sign In
 					</Button>
 					<Button
-						buttonType={'google'}
+						buttonType={BUTTON_TYPE_CLASSES.google}
 						type={"button"}
-						name={"google"}
 						onClick={SignInWithGoogle}
 					>
 						Google Sign In
 					</Button>
-				</div>
+				</ButtonsContainer>
 
 			</form>
-		</div>
+		</SignInContainer>
 	)
 }
 

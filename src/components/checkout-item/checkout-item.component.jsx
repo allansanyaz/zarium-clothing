@@ -1,6 +1,14 @@
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
-import './checkout-item.styles.scss';
+import {
+	CheckoutItemContainer,
+	ImageContainer,
+	TextContainer,
+	QuantityContainer,
+	ArrowContainer,
+	ValueContainer,
+	RemoveButtonContainer
+} from './checkout-item.styles';
 
 const CheckoutItem = ({ product }) => {
 	// load the context items
@@ -26,25 +34,25 @@ const CheckoutItem = ({ product }) => {
 	}
 
 	return (
-		<div className={'checkout-item-container'}>
-			<div className={'image-container'}>
+		<CheckoutItemContainer>
+			<ImageContainer>
 				<img src={imageUrl} alt={name} />
-			</div>
-				<span className={'name'}>{name}</span>
-				<span className={'quantity'}>
-					<span className={'arrow'} onClick={handleDecrementItem}>&#60;</span>
-					<span className={'value'}>{quantity}</span>
-					<span className={'arrow'} onClick={handleIncrementItem}>&#62;</span>
-				</span>
-				<span className={'price'}>${price}</span>
-				<span className={'price'}>${total}</span>
-				<div className={'remove-button'} onClick={handleRemoveItem}>
+			</ImageContainer>
+			<TextContainer>{name}</TextContainer>
+				<QuantityContainer>
+					<ArrowContainer onClick={handleDecrementItem}>&#60;</ArrowContainer>
+					<TextContainer>{quantity}</TextContainer>
+					<ArrowContainer onClick={handleIncrementItem}>&#62;</ArrowContainer>
+				</QuantityContainer>
+				<TextContainer>${price}</TextContainer>
+				<TextContainer>${total}</TextContainer>
+				<RemoveButtonContainer onClick={handleRemoveItem}>
 					&#10005;
-				</div>
+				</RemoveButtonContainer>
 			<div>
 			</div>
 
-		</div>
+		</CheckoutItemContainer>
 	);
 }
 export default CheckoutItem;
