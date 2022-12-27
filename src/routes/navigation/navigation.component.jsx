@@ -34,7 +34,7 @@ const Navigation = () => {
 				</div>
 			</Link>
 			<div className={'nav-links-container'}>
-				<Link className={'nav-link'}  to="shop">
+				<Link className={'nav-link'}  to="categories">
 					Shop
 				</Link>
 				<Link className={'nav-link'}  to="contact">

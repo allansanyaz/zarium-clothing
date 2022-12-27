@@ -19,6 +19,10 @@ import {
 	doc, // will get a document instance
 	getDoc, // when you want to access the data from the document then we use getDoc
 	setDoc, // when you want to set the data
+	collection, // allow us to get a collection reference instead of a document
+	writeBatch,
+	query,
+	getDocs,
 } from 'firebase/firestore';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -51,6 +55,49 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 
 // we need to create the DB
 export const db = getFirestore(firebaseApp);
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+	const collectionRef = collection(db, collectionKey);
+	/* Entries are transactions with represent a successful write operation.
+	* If one fails then the db write must be undone. E.g. transferring money to two accounts
+	* one has to be debited and the other credited (2 operations but one transaction).
+	* if one fails the entire operation must be undone and accounts restored to normal*/
+
+	/* batching is done to achieve this (batch writing) */
+	// initialise the batch item
+	const batch = writeBatch(db);
+
+	// create set methods
+	objectsToAdd.forEach((object) => {
+		// create the document but using the collection. doc is smart enough to know this
+		const docRef = doc(collectionRef, object.title.toLowerCase());
+		// tell it to populate the db
+		batch.set(docRef, object);
+	});
+		// tell it to begin the population
+		await batch.commit();
+		// log the done message
+		console.log('done');
+}
+
+export const getCatergoriesAndDocuments = async () => {
+	// we need collection references
+	const collectionRef = collection(db, 'categories');
+	// this will generate a query of the collectionRef
+	const q = query(collectionRef);
+	// get a snapshot from the object return above
+	const querySnapshot = await getDocs(q);
+	// below will give the data inside as an array, and the snapshots are the actual data
+	const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
+		// deconstruct the data from the snapshot
+		const { title, items } = docSnapshot.data();
+		accumulator[title.toLowerCase()] = items;
+		// return the accumulator
+		return accumulator
+	}, {});
+
+	return categoryMap;
+}
 
 // testing the db methods
 // function to get the information from the USER authentication

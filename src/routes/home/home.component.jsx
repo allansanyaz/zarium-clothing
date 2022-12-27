@@ -1,7 +1,7 @@
 import Directory from "../../components/directory/directory.component";
 
 const Home = () => {
-	// define the categories
+	// define the category
 	const categories = [
 		{
 			"id": 1,

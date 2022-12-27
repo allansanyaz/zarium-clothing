@@ -6,15 +6,17 @@ import './index.scss';
 import App from './containers/App';
 // import the user context component
 import { UserProvider } from './contexts/user.context';
-import { ProductProvider } from "./contexts/product.context";
+import { CategoriesProvider } from "./contexts/categoriesContext";
 import { CartProvider } from "./contexts/cart.context";
 import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/home/home.component';
-import Shop from "./routes/shop/shop.component";
 import Contact from "./routes/contact/contact.component";
 import Checkout from "./routes/checkout/checkout.component";
 import AuthenticationComponent from "./routes/authentication/authentication.component";
+
+import CategoriesPreview from "./routes/categories-preview/categories-preview.component";
+import Category from "./routes/category/category.component";
 
 // define the routes
 const routes = [
@@ -27,8 +29,12 @@ const routes = [
                 element: <Home />
             },
             {
-                path: "shop",
-                element: <Shop />
+                path: "categories",
+                element: <CategoriesPreview />,
+            },
+            {
+                path: "categories/:category",
+                element: <Category />,
             },
             {
                 path: "contact",
@@ -53,11 +59,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <UserProvider>
-            <ProductProvider>
+            <CategoriesProvider>
                 <CartProvider>
                     <RouterProvider router={router} />
                 </CartProvider>
-            </ProductProvider>
+            </CategoriesProvider>
         </UserProvider>
     </React.StrictMode>
 );
