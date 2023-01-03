@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import CartIcon from "../../assets/shopping-bag.svg";
+// import CartIcon from "../../assets/shopping-bag.svg";
+import { ReactComponent as ShoppingSvg } from "../../assets/shopping-bag.svg";
 
 export const CartIconContainer = styled.div`
   width: 45px;
@@ -11,16 +12,24 @@ export const CartIconContainer = styled.div`
   cursor: pointer;
 `;
 
-export const ShoppingIcon = styled.img.attrs({
-    src: CartIcon,
-})`
-    width: 24px;
-    height: 24px;
-`;
+// export const ShoppingIcon = styled.img.attrs({
+//     src: CartIcon,
+// })`
+//     width: 24px;
+//     height: 24px;
+// `;
 
 export const ItemCount = styled.span`
     position: absolute;
     font-size: 10px;
     font-weight: bold;
     bottom: 12px;
+`;
+
+/*
+The SVG file can also be imported as a React component and have the attribiutes added to it
+*/
+export const ShoppingIcon = styled(ShoppingSvg)`
+    width: 24px;
+    height: 24px;
 `;
