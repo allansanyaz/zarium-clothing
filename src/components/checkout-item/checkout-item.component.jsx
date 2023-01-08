@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useDispatch } from "react-redux";
+import { addItem, removeItem, decrementItem } from "../../store/cart/cart.slice";
 import {
 	CheckoutItemContainer,
 	ImageContainer,
@@ -11,26 +11,25 @@ import {
 } from './checkout-item.styles';
 
 const CheckoutItem = ({ product }) => {
-	// load the context items
-	const { addItemToCart, removeItemFromCart } = useContext(CartContext);
+	// load the dispatch method
+	const dispatch = useDispatch();
 	// deconstruct the product
 	const { name, imageUrl, price, quantity, total } = product;
 
 	// handlers for the buttons to increment, decrement and remove
 	const handleRemoveItem = () => {
 		// remove the item while ensuring that decrement is not set to true
-		removeItemFromCart(product);
+		dispatch(removeItem(product));
 	};
 
 	const handleDecrementItem = () => {
-		console.log('decrement');
 		// remove the item while ensuring that decrement is set to true (i.e. reduce the quantity by 1)
-		removeItemFromCart(product, true);
+		dispatch(decrementItem(product));
 	}
 
 	const handleIncrementItem = () => {
 		// add the item to the cart
-		addItemToCart(product);
+		dispatch(addItem(product));
 	}
 
 	return (

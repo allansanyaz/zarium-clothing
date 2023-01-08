@@ -15,8 +15,8 @@ const DirectoryItem = ({ title, imageUrl }) => {
 			<DirectoryBodyContainer
 		        onClick={() => onTitleClick(title)}
 			>
-				<h2>{title}</h2>
-				<p>Shop now</p>
+				<DirectoryTitle>{title}</DirectoryTitle>
+				<DirectorySubtitle>Shop now</DirectorySubtitle>
 			</DirectoryBodyContainer>
 		</DirectoryContainer>
 	)

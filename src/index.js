@@ -4,10 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import './index.scss';
 import App from './containers/App';
-// import the user context component
-import { UserProvider } from './contexts/user.context';
-import { CategoriesProvider } from "./contexts/categoriesContext";
-import { CartProvider } from "./contexts/cart.context";
+// import the redux modules here
+import { store } from './store/store';
+import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 
 import Home from './routes/home/home.component';
@@ -56,15 +55,12 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <React.StrictMode>
-        <UserProvider>
-            <CategoriesProvider>
-                <CartProvider>
-                    <RouterProvider router={router} />
-                </CartProvider>
-            </CategoriesProvider>
-        </UserProvider>
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
     </React.StrictMode>
 );
 

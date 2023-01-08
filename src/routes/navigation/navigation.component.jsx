@@ -1,18 +1,17 @@
-import { useContext } from "react";
-import { UserContext } from '../../contexts/user.context';
-import { CartContext } from '../../contexts/cart.context';
-
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCartHidden } from "../../store/cart/cart.slice";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
-
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 // import the styled components
 import { NavigationContainer, NavLinksContainer, NavLink, LogoContainer, Logo } from './navigation.styles';
 
 const Navigation = () => {
-	// Grab the context
-	const { currentUser } = useContext(UserContext);
-	const { cartHidden, toggleCartHidden } = useContext(CartContext);
+	// Grab the information from redux
+	const { currentUser } = useSelector(state => state.user);
+	const { cartHidden } = useSelector(state => state.cart);
+	// load the dispatch
+	const dispatch = useDispatch();
 
 	// handler for sign out
 	const handleSignOut = async () => {
@@ -23,6 +22,9 @@ const Navigation = () => {
 		}
 	}
 
+	const onCartClick = () => {
+			dispatch(toggleCartHidden());
+	}
 
 	return (
 		<NavigationContainer>
@@ -45,7 +47,7 @@ const Navigation = () => {
 				}
 
 				<CartIcon
-					clickHandler={toggleCartHidden}
+					clickHandler={onCartClick}
 				/>
 			</NavLinksContainer>
 			{ !cartHidden && <CartDropdown /> }

@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useSelector } from "react-redux";
 import { CartIconContainer, ShoppingIcon, ItemCount } from './cart-icon.styles';
 
 const CartIcon = ({ clickHandler }) => {
 
-	const { totalCartItems } = useContext(CartContext);
+	// load the redux data
+	const { totalCartItems } = useSelector(state => state.cart);
 
 	return (
 		<CartIconContainer
