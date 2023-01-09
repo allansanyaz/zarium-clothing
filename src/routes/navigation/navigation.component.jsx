@@ -5,11 +5,13 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 // import the styled components
 import { NavigationContainer, NavLinksContainer, NavLink, LogoContainer, Logo } from './navigation.styles';
+import { userSelector } from "../../store/user/user.selector";
+import { cartSelector } from "../../store/cart/cart.selector";
 
 const Navigation = () => {
 	// Grab the information from redux
-	const { currentUser } = useSelector(state => state.user);
-	const { cartHidden } = useSelector(state => state.cart);
+	const { currentUser } = useSelector(userSelector);
+	const { cartHidden } = useSelector(cartSelector);
 	// load the dispatch
 	const dispatch = useDispatch();
 

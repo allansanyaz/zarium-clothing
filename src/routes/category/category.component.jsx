@@ -5,12 +5,15 @@ import { useParams } from 'react-router-dom'
 
 import { ProductContainer } from "./category.styles";
 import { getCategories } from "../../store/categories/categories.slice";
+import {categoriesSelector} from "../../store/categories/categories.selector";
+
+import Spinner from "../../components/spinner/spinner.component";
 
 const Category = () => {
 	// get the params from the browser URL
 	const { category } = useParams();
 	// load the state from redux
-	const { categories, isPending } = useSelector(state => state.categories);
+	const { categories, isPending } = useSelector(categoriesSelector);
 	// state for the categories
 	const [products, setProducts] = useState([])
 	// set up the dispatch
@@ -37,7 +40,7 @@ const Category = () => {
 		<>
 			<h2>{category}</h2>
 			{
-				(isPending) ? <h2>Loading...</h2> :
+				(isPending) ? <Spinner /> :
 					(
 						<ProductContainer>
 						{

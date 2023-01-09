@@ -3,10 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 import { getCategories } from "../../store/categories/categories.slice";
+import { categoriesSelector } from "../../store/categories/categories.selector";
+
+import Spinner from "../../components/spinner/spinner.component";
 
 const CategoriesPreview = () => {
 	// get the product information from redux
-	const { categories, isPending } = useSelector(state => state.categories);
+	const { categories, isPending } = useSelector(categoriesSelector);
 
 	// load the dispatch method
 	const dispatch = useDispatch();
@@ -28,7 +31,7 @@ const CategoriesPreview = () => {
 	return (
 		<>
 			{
-				(isPending) ? (<h2>Loading...</h2>) : (
+				(isPending) ? <Spinner /> : (
 					Object.keys(categories).map((title, idx) => {
 						return (
 							<CategoryPreview
