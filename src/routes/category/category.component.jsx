@@ -4,7 +4,7 @@ import ProductCard from "../../components/product-card/product-card.component";
 import { useParams } from 'react-router-dom'
 
 import { ProductContainer } from "./category.styles";
-import { getCategories } from "../../store/categories/categories.slice";
+import { initialiseCategories } from "../../store/categories/categories.slice";
 import {categoriesSelector} from "../../store/categories/categories.selector";
 
 import Spinner from "../../components/spinner/spinner.component";
@@ -22,7 +22,8 @@ const Category = () => {
 	// get initialise the fetch of the categories
 	useEffect(() => {
 		// run the result fetch from the redux slice
-		dispatch(getCategories());
+		// dispatch(getCategories());
+		dispatch(initialiseCategories());
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

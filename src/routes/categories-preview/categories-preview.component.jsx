@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CategoryPreview from "../../components/category-preview/category-preview.component";
-import { getCategories } from "../../store/categories/categories.slice";
+import {initialiseCategories} from "../../store/categories/categories.slice";
 import { categoriesSelector } from "../../store/categories/categories.selector";
 
 import Spinner from "../../components/spinner/spinner.component";
@@ -19,8 +19,8 @@ const CategoriesPreview = () => {
 
 	useEffect(() => {
 		// load the categories
-		dispatch(getCategories());
-
+		// dispatch(getCategories());
+		dispatch(initialiseCategories());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

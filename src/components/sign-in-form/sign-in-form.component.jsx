@@ -1,14 +1,14 @@
 import { useState } from 'react';
-
+import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
 
 import {
-	createUserDocumentFromAuth,
-	signInWithGooglePopup,
-	signInAuthUserWirthEmailAndPassword,
+	signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
+
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.slice";
 
 const defaultFormFields = {
 	email: '',
@@ -18,6 +18,9 @@ const defaultFormFields = {
 const SignInForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
+
+	// define dispatch
+	const dispatch = useDispatch();
 
 	const resetFormFields = () => {
 		// set the form fields as the default form fields i.e. blank
@@ -32,7 +35,8 @@ const SignInForm = () => {
 
 	// handle the sign in wit google button
 	const SignInWithGoogle = async () => {
-		signInWithGooglePopup();
+		// signInWithGooglePopup();
+		dispatch(googleSignInStart());
 		// note the response can also be destructured
 		// const { user } = await signInWithGooglePopup();
 	}
@@ -44,7 +48,7 @@ const SignInForm = () => {
 
 		try {
 			// sign the user in using our firebase.utils script
-			const response = await signInAuthUserWirthEmailAndPassword(email, password);
+			dispatch(emailSignInStart({email, password}));
 			// clear the input fields
 			resetFormFields();
 		} catch (error) {

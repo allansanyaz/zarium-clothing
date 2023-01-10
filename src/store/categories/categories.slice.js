@@ -1,11 +1,11 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { getCatergoriesAndDocuments } from "../../utils/firebase/firebase.utils";
+import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
 
 export const getCategories = createAsyncThunk(
 	"categories/getCategories",
 	async () => {
 		// get the categories and documents from firebase
-		const categoriesFetchResult = await getCatergoriesAndDocuments();
+		const categoriesFetchResult = await getCategoriesAndDocuments();
 		// return the categories
 		return categoriesFetchResult;
 	}
@@ -21,7 +21,18 @@ export const categoriesSlice = createSlice({
 	  name: "categories",
 	  initialState: INITIAL_STATE,
 	  reducers: {
-		  // no reducer method needed here just the async request
+		  initialiseCategories: (state) => {
+			  state.isPending = true;
+			  state.categories = [];
+		  },
+		  setCategories: (state, action) => {
+			  state.isPending = false;
+			  state.categories = action.payload;
+		  },
+		  setError: (state, action) => {
+			  state.isPending = false;
+			  state.error = action.payload;
+		  }
 	  },
 	  extraReducers: (builder) => {
 		  builder
@@ -34,10 +45,12 @@ export const categoriesSlice = createSlice({
 		      })
 		      .addCase(getCategories.rejected, (state, action) => {
                     state.isPending = false;
-					state.error = action.error.message;
+					state.error = action.payload;
 					state.categories = [];
 		      })
 	  },
 });
+
+export const { initialiseCategories, setCategories, setError } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

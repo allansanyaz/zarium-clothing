@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleCartHidden } from "../../store/cart/cart.slice";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
-import { signOutUser } from "../../utils/firebase/firebase.utils";
 // import the styled components
 import { NavigationContainer, NavLinksContainer, NavLink, LogoContainer, Logo } from './navigation.styles';
 import { userSelector } from "../../store/user/user.selector";
 import { cartSelector } from "../../store/cart/cart.selector";
+import { signOutStart } from "../../store/user/user.slice";
 
 const Navigation = () => {
 	// Grab the information from redux
@@ -16,9 +16,9 @@ const Navigation = () => {
 	const dispatch = useDispatch();
 
 	// handler for sign out
-	const handleSignOut = async () => {
+	const handleSignOut = () => {
 		try {
-			await signOutUser();
+			dispatch(signOutStart());
 		} catch (error) {
 			alert(`Could not sign out user: ${error.message}`);
 		}

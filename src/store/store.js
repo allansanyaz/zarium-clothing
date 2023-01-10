@@ -1,48 +1,41 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { compose, combineReducers } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import userReducer from './user/user.slice';
-import cartReducer from './cart/cart.slice';
-import categoriesReducer from './categories/categories.slice';
+import { rootReducer } from "./root-reducer";
+
+import thunkMiddleware from 'redux-thunk';
+// not that Sagas replace thunks and we only want one asynchronuous middleware
+import createSagaMiddleware from 'redux-saga';
+import { rootSaga } from "./root-saga";
 
 // persistant reducers
 import {
 	persistReducer,
 	persistStore,
-	FLUSH,
-	REHYDRATE,
-	PAUSE,
-	PERSIST,
-	PURGE,
-	REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
+// saga middleware
+const sagaMiddleWare = createSagaMiddleware();
 
 // create the logger middleware
 const loggerMiddleware = createLogger();
 
-// combine the reducers
-const rootReducer = combineReducers({
-	user: userReducer,
-	cart: cartReducer,
-	categories: categoriesReducer,
-});
-
 const persistConfig = {
 	key: 'root',
 	storage,
-	blacklist: ['user'],
+	whitelist: ['cart'],
 }
-
-const isProduction = process.env.NODE_ENV === 'production';
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// create the store
+// check to see if we are in production mode or development
+const isProduction = process.env.NODE_ENV === 'production';
+// create the store and add the middleware
 export const store = configureStore({
 	reducer: persistedReducer,
-	middleware: (!isProduction) ? [thunkMiddleware, loggerMiddleware] : [thunkMiddleware],
+	middleware: (!isProduction) ? [sagaMiddleWare, loggerMiddleware] : [sagaMiddleWare],
 });
+
+// run the saga middleware
+sagaMiddleWare.run(rootSaga);
 
 export const persistor = persistStore(store);
