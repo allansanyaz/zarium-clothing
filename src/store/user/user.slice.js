@@ -27,7 +27,7 @@ export const userSlice = createSlice({
 		},
 		signInSuccess: (state, action) => {
 			state.isPending = false;
-			state.currentUser = action.payload.id;
+			state.currentUser = action.payload;
 		},
 		signOutStart: (state) => {
 			state.isPending = true;

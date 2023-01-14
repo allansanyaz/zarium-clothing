@@ -2,6 +2,9 @@ import { useSelector } from "react-redux";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import { CheckoutContainer, CheckoutHeader, HeaderBlock, Total } from "./checkout.styles";
 import { cartSelector } from "../../store/cart/cart.selector";
+import PaymentForm from "../../components/payment-form/payment-form.component";
+import { stripePromise } from "../../utils/stripe/stripe.utils";
+import { Elements } from '@stripe/react-stripe-js';
 
 const Checkout = () => {
 
@@ -39,6 +42,11 @@ const Checkout = () => {
 				))
 			}
 			<Total as={'span'}>Grand Total: ${totalCartPrice}</Total>
+
+            <Elements stripe={stripePromise}>
+                <PaymentForm />
+            </Elements>
+            
 		</CheckoutContainer>
 	);
 }
