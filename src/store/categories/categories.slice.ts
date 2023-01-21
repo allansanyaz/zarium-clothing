@@ -1,21 +1,28 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk, SerializedError} from "@reduxjs/toolkit";
 import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
+import { ICategories } from "../../types/types";
 
 export const getCategories = createAsyncThunk(
 	"categories/getCategories",
-	async () => {
+	async (dbName: string) => {
 		// get the categories and documents from firebase
-		const categoriesFetchResult = await getCategoriesAndDocuments();
+		const categoriesFetchResult = await getCategoriesAndDocuments(dbName);
 		// return the categories
-		return categoriesFetchResult;
+		return categoriesFetchResult as ICategories;
 	}
 );
 
+export interface ICategoryState {
+    isPending: boolean;
+    categories: ICategories;
+	error: SerializedError | null | string;
+}
+
 const INITIAL_STATE = {
 	isPending: false,
-	categories: [],
+	categories: {},
 	error: null,
-}
+} as ICategoryState;
 
 export const categoriesSlice = createSlice({
 	  name: "categories",
@@ -23,7 +30,6 @@ export const categoriesSlice = createSlice({
 	  reducers: {
 		  initialiseCategories: (state) => {
 			  state.isPending = true;
-			  state.categories = [];
 		  },
 		  setCategories: (state, action) => {
 			  state.isPending = false;
@@ -45,8 +51,7 @@ export const categoriesSlice = createSlice({
 		      })
 		      .addCase(getCategories.rejected, (state, action) => {
                     state.isPending = false;
-					state.error = action.payload;
-					state.categories = [];
+					state.error = (action.payload) ? action.payload : action.error;
 		      })
 	  },
 });

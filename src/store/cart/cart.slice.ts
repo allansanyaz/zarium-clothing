@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ICategoryItem } from "../../types/types";
+
+interface ICartItem extends ICategoryItem {
+	quantity: number;
+	total: number;
+}
 
 // helper functions for the reducer
-const addItemToCart = (cartItems, productToAdd) => {
+const addItemToCart = (cartItems: ICartItem[], productToAdd: ICartItem): ICartItem[] => {
 	// check if product is already in cart
 	const existingCartItem = cartItems.find(
 		(cartItem) => cartItem.id === productToAdd.id
@@ -23,9 +29,9 @@ const addItemToCart = (cartItems, productToAdd) => {
 	}
 };
 
-const removeItemFromCart = (cartItems, productToRemove, decrement=false) => {
+const removeItemFromCart = (cartItems: ICartItem[], productToRemove: ICartItem, decrement: boolean=false): ICartItem[] => {
 	// check to see if the item is in the cart
-	const existingCartItem = cartItems.find(cartItem => cartItem.id === productToRemove.id);
+	const existingCartItem = cartItems.find(cartItem => cartItem.id === productToRemove.id) as ICartItem;
 
 	// if it exists then just remove from the cart ensuring that it will not go below 0
 	if (existingCartItem.quantity) {
@@ -38,20 +44,24 @@ const removeItemFromCart = (cartItems, productToRemove, decrement=false) => {
 							? { ...cartItem, quantity: cartItem.quantity - 1, total: (cartItem.quantity - 1) * cartItem.price }
 							: cartItem
 					)
-				);
+				) as ICartItem[];
 			case false:
 				// remove the item from the cart
-				return(cartItems.filter(cartItem => cartItem.id !== productToRemove.id));
+				return(cartItems.filter(cartItem => cartItem.id !== productToRemove.id)) as ICartItem[];
 			default:
 				break;
 		}
-	} else {
-		// set the cart items to the cart items that do not match the product to remove
-		return cartItems;
 	}
+	// set the cart items to the cart items that do not match the product to remove
+	return cartItems;
 };
 
-const totalQuantityAndPrice = (cartItems) => {
+type QuantityPrice = {
+	totalQuantity: number;
+	totalPrice: number;
+}
+
+const totalQuantityAndPrice = (cartItems: ICartItem[]): QuantityPrice => {
 	// get the total quantity of items in the cart
 	const totalQuantity = cartItems.reduce((accumulatedQuantity, cartItem) => {
 		return accumulatedQuantity + cartItem.quantity;
@@ -65,12 +75,19 @@ const totalQuantityAndPrice = (cartItems) => {
 	return { totalQuantity, totalPrice };
 };
 
+interface ICartState {
+	cartHidden: boolean;
+	cartItems: ICartItem[] | [];
+	totalCartItems: number;
+	totalCartPrice: number;
+}
+
 const INITIAL_STATE = {
 	cartHidden: true,
 	cartItems: [],
 	totalCartItems: 0,
 	totalCartPrice: 0,
-}
+} as ICartState;
 
 export const cartSlice = createSlice({
 	name: "cart",
@@ -87,14 +104,14 @@ export const cartSlice = createSlice({
 			state.totalCartPrice = quantityAndPrice.totalPrice;
 		},
 		removeItem: (state, action) => {
-			state.cartItems = removeItemFromCart(state.cartItems, action.payload);
+			state.cartItems = removeItemFromCart(state.cartItems, action.payload) as ICartItem[];
 			// compute the quantity and price of the cart
 			const quantityAndPrice = totalQuantityAndPrice(state.cartItems);
 			state.totalCartItems = quantityAndPrice.totalQuantity;
 			state.totalCartPrice = quantityAndPrice.totalPrice;
 		},
 		decrementItem: (state, action) => {
-			state.cartItems = removeItemFromCart(state.cartItems, action.payload, true);
+			state.cartItems = removeItemFromCart(state.cartItems, action.payload, true) as ICartItem[];
 			// compute the quantity and price of the cart
 			const quantityAndPrice = totalQuantityAndPrice(state.cartItems);
 			state.totalCartItems = quantityAndPrice.totalQuantity;

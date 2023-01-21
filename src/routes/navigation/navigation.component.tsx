@@ -16,10 +16,10 @@ const Navigation = () => {
 	const dispatch = useDispatch();
 
 	// handler for sign out
-	const handleSignOut = () => {
+	const handleSignOut = (): void => {
 		try {
 			dispatch(signOutStart());
-		} catch (error) {
+		} catch (error: any) {
 			alert(`Could not sign out user: ${error.message}`);
 		}
 	}
