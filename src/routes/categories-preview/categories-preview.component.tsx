@@ -24,7 +24,7 @@ const CategoriesPreview = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const onTitleClick = (category) => {
+	const onTitleClick = (category: string) => {
 		navigate(`/categories/${category}`);
 	}
 
@@ -32,7 +32,7 @@ const CategoriesPreview = () => {
 		<>
 			{
 				(isPending) ? <Spinner /> : (
-					Object.keys(categories).map((title, idx) => {
+					Object.keys(categories).map((title: string, idx: number) => {
 						return (
 							<CategoryPreview
 								key={idx}

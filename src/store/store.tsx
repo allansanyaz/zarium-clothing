@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 import { rootReducer } from "./root-reducer";
 
-import thunkMiddleware from 'redux-thunk';
+// import thunkMiddleware from 'redux-thunk';
 // not that Sagas replace thunks and we only want one asynchronuous middleware
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from "./root-saga";
@@ -34,6 +34,11 @@ export const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (!isProduction) ? [sagaMiddleWare, loggerMiddleware] : [sagaMiddleWare],
 });
+
+// get type of the store
+export type RootState = ReturnType<typeof store.getState>;
+// get type of the dispatch
+export type AppDispatch = typeof store.dispatch;
 
 // run the saga middleware
 sagaMiddleWare.run(rootSaga);

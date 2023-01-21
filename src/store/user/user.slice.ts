@@ -1,10 +1,17 @@
-import {createSlice, isPending} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { IUser } from "../../types/types";
+
+interface IUserState {
+	isPending: boolean;
+	currentUser: IUser | null;
+	error: null | string;
+}
 
 const INITIAL_STATE = {
 	isPending: false,
 	currentUser: null,
 	error: null
-}
+} as IUserState;
 
 export const userSlice = createSlice({
 	name: "user",

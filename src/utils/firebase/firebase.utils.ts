@@ -25,6 +25,9 @@ import {
 	getDocs,
 } from 'firebase/firestore';
 
+// import the types
+import {IUser, ICategoryItems, ICategories} from "../../types/types";
+
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -56,7 +59,7 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googlePro
 // we need to create the DB
 export const db = getFirestore(firebaseApp);
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+export const addCollectionAndDocuments = async (collectionKey: string, objectsToAdd: ICategoryItems[]): Promise<void> => {
 	const collectionRef = collection(db, collectionKey);
 	/* Entries are transactions with represent a successful write operation.
 	* If one fails then the db write must be undone. E.g. transferring money to two accounts
@@ -68,7 +71,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 	const batch = writeBatch(db);
 
 	// create set methods
-	objectsToAdd.forEach((object) => {
+	objectsToAdd.forEach((object: ICategoryItems ) => {
 		// create the document but using the collection. doc is smart enough to know this
 		const docRef = doc(collectionRef, object.title.toLowerCase());
 		// tell it to populate the db
@@ -80,7 +83,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 		console.log('done');
 }
 
-export const getCategoriesAndDocuments = async (dbName) => {
+export const getCategoriesAndDocuments = async (dbName: string): Promise<ICategories> => {
 	// we need collection references
 	const collectionRef = collection(db, dbName);
 	// this will generate a query of the collectionRef
@@ -94,14 +97,14 @@ export const getCategoriesAndDocuments = async (dbName) => {
 		accumulator[title.toLowerCase()] = items;
 		// return the accumulator
 		return accumulator
-	}, {});
+	}, {} as ICategories);
 
-	return categoryMap;
+	return categoryMap as ICategories;
 }
 
 // testing the db methods
 // function to get the information from the USER authentication
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation={}) => {
+export const createUserDocumentFromAuth = async (userAuth: IUser, additionalInformation={}) => {
 	// test to see if there is an existing document reference
 
 	const userDocRef = doc(db, 'users', userAuth.uid);
@@ -131,7 +134,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 				createdAt,
 				...additionalInformation,
 			})
-		} catch (error) {
+		} catch (error: any) {
 			console.log('Error creating user', error.message);
 		}
 	}
@@ -140,7 +143,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 	return userSnapshot;
 }
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
 	// check and see that the email and password are not empty
 	if(!email || !password) return;
 
@@ -148,7 +151,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	return await createUserWithEmailAndPassword(auth, email, password);
 }
 
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
 	// check and see that the email and password are not empty
 	if(!email || !password) return;
 
@@ -161,8 +164,8 @@ export const signOutUser = async () => {
 	return await signOut(auth);
 }
 
-export const onAuthStateChangedListener = (callback) => {
-	onAuthStateChanged(auth, callback)
+export const onAuthStateChangedListener = (callback: any) => {
+	onAuthStateChanged(auth, callback);
 }
 
 export const getCurrentUser = () => {
