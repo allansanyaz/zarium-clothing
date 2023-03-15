@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { ProductCardContainer, FooterContainer, NameContainer, PriceContainer, ProductButton } from './product-card.styles'
+import { ProductCardContainer, FooterContainer, NameContainer, PriceContainer } from './product-card.styles'
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
-
+import { IProductItem } from "../../types/types";
 import { addItem } from "../../store/cart/cart.slice";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product }: IProductItem) => {
 	// deconstruct the product object
 	const { name, price, imageUrl } = product;
 	// load the dispatch method

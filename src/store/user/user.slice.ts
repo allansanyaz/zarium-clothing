@@ -39,7 +39,7 @@ export const userSlice = createSlice({
 		signOutStart: (state) => {
 			state.isPending = true;
 		},
-		signOutSuccess: (state, action) => {
+		signOutSuccess: (state) => {
 			state.isPending = false;
 			state.currentUser = null;
 		},

@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, {StyledComponent} from "styled-components";
+import { ICategoryItem } from "../../types/types";
 
 export const DirectoryContainer = styled.div`
   min-width: 30%;
@@ -27,7 +28,11 @@ export const DirectoryContainer = styled.div`
   }
 `
 
-export const BackgroundImage = styled.div`
+interface IBackgroundImage {
+    imageUrl?: string;
+}
+
+export const BackgroundImage = styled.div<IBackgroundImage>`
   background-image: ${({ imageUrl }) => `url(${imageUrl})`};
   width: 100%;
   height: 100%;

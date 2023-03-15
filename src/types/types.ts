@@ -5,7 +5,9 @@ export interface IUser {
 	photoURL?: string;
 	createAt?: string;
 }
-
+export interface AdditionalInformation {
+	displayName?: string;
+}
 export type ICategoryItem = {
 	id: number;
 	imageUrl: string;
@@ -20,7 +22,11 @@ export interface ICategoryItems {
 }
 
 export interface ICategories {
-	[category: string]: ICategoryItem;
+	[category: string]: ICategoryItem[];
+}
+
+export interface IProductItem {
+	product: ICategoryItem;
 }
 
 export type IParams = {

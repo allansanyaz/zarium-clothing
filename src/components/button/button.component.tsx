@@ -4,16 +4,16 @@ Three types of buttons:
 2. Inverted
 3. Google Sign In
 */
-
+import React from "react";
 import { BaseButton, GoogleSignInButton, InvertedButton, ButtonSpinner } from './button.styles';
 
-export const BUTTON_TYPE_CLASSES = {
-    base: 'base',
-	google: 'google-sign-in',
-	inverted: 'inverted',
+export enum BUTTON_TYPE_CLASSES {
+    base = 'base',
+	google = 'google-sign-in',
+	inverted = 'inverted',
 }
 
-const getButton = (buttonType: string = BUTTON_TYPE_CLASSES.base) => (
+const getButton = (buttonType= BUTTON_TYPE_CLASSES.base): typeof BaseButton => (
     // below simply the object has just been indexed by the buttonType
     {
         [BUTTON_TYPE_CLASSES.base]: BaseButton,
@@ -22,13 +22,15 @@ const getButton = (buttonType: string = BUTTON_TYPE_CLASSES.base) => (
     }[buttonType]);
 
 type ButtonProps = {
-    children: string;
-    buttonType?: string;
+    children: React.ReactNode;
+    buttonType?: BUTTON_TYPE_CLASSES;
     isLoading?: boolean;
     [otherProps: string]: any;
 }
 
 const Button = ({ children, buttonType, isLoading,...otherProps }: ButtonProps) => {
+    if(buttonType === undefined) buttonType = BUTTON_TYPE_CLASSES.base;
+
     const CustomButton = getButton(buttonType);
 	return(
 		<CustomButton disabled={isLoading} {...otherProps}>

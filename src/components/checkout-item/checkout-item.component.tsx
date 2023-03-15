@@ -10,7 +10,18 @@ import {
 	RemoveButtonContainer
 } from './checkout-item.styles';
 
-const CheckoutItem = ({ product }) => {
+import { ICategoryItem } from "../../types/types";
+
+interface ICheckoutItem extends ICategoryItem {
+	quantity: number;
+	total: number;
+}
+
+interface ICheckoutProps {
+	product: ICheckoutItem;
+}
+
+const CheckoutItem = ({ product }: ICheckoutProps ) => {
 	// load the dispatch method
 	const dispatch = useDispatch();
 	// deconstruct the product

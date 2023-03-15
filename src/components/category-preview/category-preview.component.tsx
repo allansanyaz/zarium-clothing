@@ -1,7 +1,14 @@
 import ProductCard from "../product-card/product-card.component";
 import { CategoryPreviewContainer, Title, Preview } from './category-preview.styles';
+import { ICategoryItem } from "../../types/types";
 
-const CategoryPreview = ({ title, products, onTitleClick }) => {
+interface ICategoryPreviewProps {
+	title: string;
+	products: ICategoryItem[];
+	onTitleClick: (title: string) => void;
+}
+
+const CategoryPreview = ({ title, products, onTitleClick }: ICategoryPreviewProps) => {
 	return (
 		<CategoryPreviewContainer>
 			<h2>

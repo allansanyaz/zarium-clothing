@@ -32,7 +32,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 // create the store and add the middleware
 export const store = configureStore({
 	reducer: persistedReducer,
-	middleware: (!isProduction) ? [sagaMiddleWare, loggerMiddleware] : [sagaMiddleWare],
+	middleware: (getDefaultMiddleware) => {
+		return (!isProduction) ? getDefaultMiddleware().concat(sagaMiddleWare, loggerMiddleware) :
+			getDefaultMiddleware().concat(sagaMiddleWare)
+	},
 });
 
 // get type of the store

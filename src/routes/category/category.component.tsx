@@ -13,7 +13,7 @@ import { ICategoryItem, IParams } from "../../types/types";
 
 const Category = () => {
 	// get the params from the browser URL
-	const { category } = useParams<IParams>() as IParams;
+	const { category } = useParams<keyof IParams>() as IParams;
 	// load the state from redux
 	const { categories, isPending } = useSelector(categoriesSelector);
 	// state for the categories
@@ -37,7 +37,6 @@ const Category = () => {
 			// let us try find the category
 			const categoryProducts = categories[category];
 			// set the products state
-			// @ts-ignore
 			setProducts(categoryProducts);
 			// setProducts(categories[category]);
 			// only run again when the below change

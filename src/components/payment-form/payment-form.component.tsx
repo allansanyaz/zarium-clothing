@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, {FormEvent, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { cartSelector} from "../../store/cart/cart.selector";
@@ -24,12 +24,12 @@ const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     
-    const paymentHandler = async (event) => {
+    const paymentHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         // check and see if the user is signed in
         if(!currentUser) {
-            // navigate to sign in page if the're not signed in
+            // navigate to sign in page if they're not signed in
             navigate('/sign-in');
             // exit the function
             return;
@@ -44,7 +44,7 @@ const PaymentForm = () => {
         setIsProcessingPayment(true);
 
         // compute the total price of the cart items stripe expects all values in cents
-        const totalPriceCents = parseInt(totalCartPrice) * 100;
+        const totalPriceCents = (typeof totalCartPrice === 'string') ? parseInt(totalCartPrice) * 100 : totalCartPrice * 100;
 
         // create a payment intent (so that stripe knows that there is a payment coming)
         // could also use axios
@@ -67,10 +67,16 @@ const PaymentForm = () => {
         // const { client_secret } = response.paymentIntent;
         const { paymentIntent: {client_secret} } = response;
 
+        // check the card element is not null
+        const cardElementResponse = elements.getElement(CardElement);
+        // exit if there is no card element
+        if(!cardElementResponse) {
+            return;
+        }
         // get the payment result and conform the payment
         const paymentResult = await stripe.confirmCardPayment(client_secret, {
             payment_method: {
-                card: elements.getElement(CardElement),
+                card: cardElementResponse,
                 billing_details: {
                     name: currentUser ? currentUser.displayName: 'Guest',
                 }
@@ -82,11 +88,12 @@ const PaymentForm = () => {
 
         // check if the payment was successful
         if(paymentResult.error) {
-            alert('Error: ', paymentResult.error.message);
+            const { message } = paymentResult.error;
+            alert(`Error: \n${message}`);
         } else {
             if(paymentResult.paymentIntent.status === 'succeeded') {
                 alert('Payment successful');
-                // in most cases then you want to clear the cart if succerssful
+                // in most cases then you want to clear the cart if successfull
                 dispatch(clearCart());
             }
         }

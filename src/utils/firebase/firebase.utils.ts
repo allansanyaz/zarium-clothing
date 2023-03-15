@@ -10,6 +10,8 @@ import {
 	GoogleAuthProvider,
 	signOut,
 	onAuthStateChanged,
+	NextOrObserver,
+	User,
 } from 'firebase/auth';
 
 // Just Because we have imported the user does not mean that they have been added to the database
@@ -26,7 +28,7 @@ import {
 } from 'firebase/firestore';
 
 // import the types
-import {IUser, ICategoryItems, ICategories} from "../../types/types";
+import {ICategoryItems, ICategories, AdditionalInformation} from "../../types/types";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -104,7 +106,7 @@ export const getCategoriesAndDocuments = async (dbName: string): Promise<ICatego
 
 // testing the db methods
 // function to get the information from the USER authentication
-export const createUserDocumentFromAuth = async (userAuth: IUser, additionalInformation={}) => {
+export const createUserDocumentFromAuth = async (userAuth: User, additionalInformation={} as AdditionalInformation) => {
 	// test to see if there is an existing document reference
 
 	const userDocRef = doc(db, 'users', userAuth.uid);
@@ -164,11 +166,11 @@ export const signOutUser = async () => {
 	return await signOut(auth);
 }
 
-export const onAuthStateChangedListener = (callback: any) => {
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) => {
 	onAuthStateChanged(auth, callback);
 }
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (): Promise<User | null> => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(auth, (userAuth) => {
 			unsubscribe();

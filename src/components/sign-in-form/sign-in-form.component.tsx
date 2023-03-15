@@ -1,12 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { SignInContainer, ButtonsContainer } from './sign-in-form.styles';
-
-import {
-	signInAuthUserWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
 
 import { googleSignInStart, emailSignInStart } from "../../store/user/user.slice";
 
@@ -28,7 +24,7 @@ const SignInForm = () => {
 	}
 
 	// method to handle the change in the form fields
-	const handleChange = (event) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setFormFields({ ...formFields, [name]: value });
 	}
@@ -42,7 +38,7 @@ const SignInForm = () => {
 	}
 
 	// method to handle the sign in with either email or google
-	const handleSubmit = async (event) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		// prevent the default behaviour of the form
 		event.preventDefault();
 
@@ -51,7 +47,7 @@ const SignInForm = () => {
 			dispatch(emailSignInStart({email, password}));
 			// clear the input fields
 			resetFormFields();
-		} catch (error) {
+		} catch (error: any) {
 			// lets use a switch statement to handle the errors
 			switch (error.code) {
 				case 'auth/user-not-found':
