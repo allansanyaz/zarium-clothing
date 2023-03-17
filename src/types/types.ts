@@ -15,6 +15,14 @@ export type ICategoryItem = {
 	price: number;
 }
 
+export interface ICartItem {
+	id: number;
+	imageUrl: string;
+	name: string;
+	price: number;
+	quantity: number;
+}
+
 export interface ICategoryItems {
 	title: string;
 	imageUrl: string;

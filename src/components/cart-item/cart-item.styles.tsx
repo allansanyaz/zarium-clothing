@@ -7,9 +7,13 @@ export const CartItemContainer = styled.div`
   margin-bottom: 15px;
 `
 
-export const CartItemImage = styled.img.attrs(({name, imageUrl}) => ({
-  alt: name,
-  src: imageUrl
+interface ICartItemImageProps {
+    src: string;
+    title: string;
+}
+export const CartItemImage = styled.img.attrs(({title, src}: ICartItemImageProps) => ({
+  alt: title,
+  src: src
 }))`
   width: 30%;
 `

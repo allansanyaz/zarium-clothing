@@ -1,11 +1,18 @@
+import { FC } from "react";
 import {CartItemContainer, CartItemImage, ItemDetailsContainer, DataContainer} from './cart-item.styles';
+import { ICartItem } from "../../types/types";
 
-const CartItem = ({ cartItem }) => {
+interface ICartItemProps {
+	cartItem: ICartItem;
+}
+
+const CartItem: FC<ICartItemProps> = ({ cartItem }) => {
 	// deconstruct the array
 	const { name, imageUrl, price, quantity } = cartItem
+
 	return (
 		<CartItemContainer>
-			<CartItemImage imageUrl={imageUrl} name={name} />
+			<CartItemImage title={name} src={imageUrl} />
 			<ItemDetailsContainer>
 				<DataContainer>{name}</DataContainer>
 				<DataContainer>{quantity} * ${price}</DataContainer>
