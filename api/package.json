@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "GraphQL API for Zarium Clothing",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "GraphQL",
+    "Firebase"
+  ],
+  "author": "Allan Sanyanga",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.5.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "firebase": "^9.17.2",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "nodemon": "^2.0.21"
+  }
+}

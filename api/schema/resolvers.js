@@ -2,9 +2,13 @@
 // it will return the information we need in a particular format
 // we will need to also query the firebase database to get the information we need
 import { getDatabase, ref, update, child, push } from "firebase/database";
+import fs from "fs";
+
+const dataFileString = fs.readFileSync("../firebase-config.json", "utf8");
+const firebaseConfigParams = JSON.parse(dataFileString);
 
 // get the base URL of the database
-const baseURL = "https://zarium-clothing-db-default-rtdb.firebaseio.com/";
+const baseURL = firebaseConfigParams.databaseURL;
 
 // support function for getting the database
 const getCollectionDB = async () => {

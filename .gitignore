@@ -28,3 +28,4 @@ yarn-error.log*
 .netlify
 
 firebase-config.json
+api/node_modules
